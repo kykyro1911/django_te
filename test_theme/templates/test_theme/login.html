@@ -40,12 +40,13 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
-                  <form class="user">
+                  <form class="user" method="POST">
+		    {% csrf_token %}
                     <div class="form-group">
-                      <input type="text" class="form-control form-control-user" value="" id="username" placeholder="Account...">
+                      <input type="text" class="form-control form-control-user" value="" id="username" placeholder="Account..." name="account">
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" value="" id="exampleInputPassword" placeholder="Password...">
+                      <input type="password" class="form-control form-control-user" value="" id="exampleInputPassword" placeholder="Password..." name="password">
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
@@ -53,7 +54,7 @@
                         <label class="custom-control-label" for="customCheck">Remember Me</label>
                       </div>
                     </div>
-                    <a href="{% url 'testWB' %}" class="btn btn-primary btn-user btn-block">
+                    <a href="{% url 'testWB' %}" type="submit" class="btn btn-primary btn-user btn-block">
                       Login
                     </a>
                     <hr>
