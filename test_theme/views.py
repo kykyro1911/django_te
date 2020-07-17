@@ -52,21 +52,38 @@ def index(request):
         if not ticket:
             return HttpResponseRedirect('/test/login/')
         if Users.objects.filter(u_ticket=ticket).exists():
-            # stuinfos = StudentInfo.objects.all()
-            return render(request, 'test_theme/index.html', {'stuinfos': account})
+            stuinfos = Users.objects.get(u_ticket=ticket).u_name
+            return render(request, 'test_theme/index.html', {'stuinfos': stuinfos})
         else:
             return HttpResponseRedirect('/test/login/')
 
 
 def login(request):
+    username = "12311"
+    password= '12311'
+    
+    if request.method == 'POST': 
+        if not username in request.session: 
+            if request.POST['account'] == username and request.POST['password'] == password: 
+                request.session['account']=username 
+                message=username+' welcome !'
+                status = "login"             
+    else:
+        if username in request.session:
+            if request.session['account'] == username:
+                message = request.session['username'] +' 您已經登入過了!'
+                status = 'login'
+                
+    return render(request,'test_theme/login.html',locals())
+
+    #cookies
+
+    '''
     if request.method == 'GET':
         return render(request, 'test_theme/login.html')
- 
     if request.method == 'POST':
-        # 如果登入成功，繫結引數到cookie中，set_cookie
         account = request.POST.get('account')
         password = request.POST.get('password')
-        # 查詢使用者是否在資料庫中
         if Users.objects.filter(u_name=account).exists():
             user = Users.objects.get(u_name=account)
             if check_password(password, user.u_password):
@@ -74,69 +91,45 @@ def login(request):
                 ticket = ''
                 for i in range(15):
                     s = 'abcdefghijklmnopqrstuvwxyz'
-                    # 獲取隨機的字串
                     ticket += random.choice(s)
                 now_time = int(time.time())
                 ticket = 'TK' + ticket + str(now_time)
-                # 繫結令牌到cookie裡面
-                # response = HttpResponse()
                 response = HttpResponseRedirect('/test/testWB/')
-                #max_age 存活時間(秒)
                 response.set_cookie('ticket', ticket, max_age=10000)
-                # 存在服務端
                 user.u_ticket = ticket
                 user.save() #儲存
                 return response
-                
-                # return render(request, 'test_theme/index.html', {'account': response})
             else:
-                # return HttpResponse('使用者密碼錯誤')
                 return render(request, 'test_theme/login.html', {'password': '使用者密碼錯誤'})
         else:
-            # return HttpResponse('使用者不存在')
             return render(request, 'test_theme/login.html', {'name': '使用者不存在'})
-
-    # return render(request, 'test_theme/login.html', {})
-
     '''
-    if request.user.is_authenticated:
-        return HttpResponseRedirect('test/index/')
+
+def logout(request):
     
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
-    user = auth.authenticate(username=username, password=password)
-    if user is not None and user.is_active:
-        auth.login(request, user)
-        return HttpResponseRedirect('test/index/')
-    else:
-        return render(request, 'test_theme/login.html', locals())
+    if username in request.session:
+        message = request.session['username'] + ' 您已登出!'
+        del request.session['username']
+    return render(request,'login.html',locals())
 
-    if request.method == 'GET':
-    return render(request, 'day6_login.html')
+    # cookies
     '''
-
-def logout(request):   
     if request.method == 'GET':
-        # response = HttpResponse()
         response = HttpResponseRedirect('/test/login/')
         response.delete_cookie('ticket')
         return response
-
+    '''
 
 def register(request):
     if request.method == 'GET':
         return render(request, 'test_theme/register.html', {})
     if request.method == 'POST':
-        # 註冊
         account = request.POST.get('account')
         password = request.POST.get('password')
-        # 對密碼進行加密
         password = make_password(password)
         Users.objects.create(u_name=account, u_password=password)
         
         return HttpResponseRedirect('/test/login/')
-    
-    # return render(request, 'test_theme/register.html', {})
 
 
 def forgot_password(request):

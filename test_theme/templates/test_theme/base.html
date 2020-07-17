@@ -299,12 +299,12 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
 	        {% if stuinfos %}
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">welcome {{ stuinfos }}</span>
-                <!--img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60"-->
+                  <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">welcome {{ stuinfos }}</span>
+                  <!--img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60"-->
 		{% else %}
-		<a class="m-0 font-weight-bold text-primary" href="{% url 'login' %}">登入</a>
-		<a class="m-0 font-weight-bold text-primary" href="{% url 'register' %}">註冊</a>
+		  <a class="m-0 font-weight-bold text-primary" href="{% url 'login' %}">登入</a>
+		  <a class="m-0 font-weight-bold text-primary" href="{% url 'register' %}">註冊</a>
 		{% endif %}
               </a>
               <!-- Dropdown - User Information -->

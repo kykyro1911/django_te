@@ -42,17 +42,15 @@
                   </div>
                   <form class="user" action="" method="POST">
 		    {% csrf_token %}
+		    {% if status == "login" %}
+		    <div><a href="{% url 'login' %}">登出</a></div>
+		    {% else %}
                     <div class="form-group">
                       <input type="text" class="form-control form-control-user" value="" id="username" placeholder="Account..." name="account">
-		      {% if name %}
-			 <a>{{ name }}</a>
-		      {% endif %}
                     </div>
                     <div class="form-group">
                       <input type="password" class="form-control form-control-user" value="" id="exampleInputPassword" placeholder="Password..." name="password">
-                      {% if password %}
-			 <a>{{ password }}</a>
-		      {% endif %}
+ 
 		    </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
@@ -60,7 +58,7 @@
                         <label class="custom-control-label" for="customCheck">Remember Me</label>
                       </div>
                     </div>
-                    <input type="submit" class="btn btn-primary btn-user btn-block" value="submit">
+                    <input href="{% url 'testWB' %}" type="submit" class="btn btn-primary btn-user btn-block" value="submit">
                     <hr>
                     <a href="{% url 'testWB' %}" class="btn btn-google btn-user btn-block">
                       <i class="fab fa-google fa-fw"></i> Login with Google
@@ -68,6 +66,7 @@
                     <a href="{% url 'testWB' %}" class="btn btn-facebook btn-user btn-block">
                       <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
                     </a>
+		  {% endif %}
                   </form>
                   <hr>
                   <div class="text-center">
