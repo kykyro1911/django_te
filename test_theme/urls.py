@@ -3,7 +3,7 @@ from . import views
 
 
 urlpatterns = [
-    url(r'testWB/$', views.test, name= 'testWB'),
+    url(r'testWB/$', views.index, name= 'testWB'),
     url(r'404_error/$', views._404, name= '404'),
     url(r'blank_/$', views.blank, name= 'blank'),
     url(r'buttons_/$', views.buttons, name= 'buttons'),
@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'forgot_password/$', views.forgot_password, name= 'forgot_password'),
     url(r'charts/$', views.charts, name= 'charts'),
     url(r'tables/$', views.tables, name= 'tables'),
-    url(r'index/$', views.index, name= 'index'),
     url(r'logout/$', views.logout ,name= 'logout'),
+
+    # url(r'index/$', views.index, name= 'index'),
 ]
