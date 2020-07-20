@@ -5,8 +5,11 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.contrib import auth
 from .models import Users
+import tkinter.messagebox as msg
+import tkinter as tk
 import random
 import time
+
 
 
 def test(request):
@@ -14,7 +17,8 @@ def test(request):
 
 
 def _404(request):
-    return render(request, 'test_theme/404.html', {})
+    username = request.session.get("username", False)
+    return render(request, 'test_theme/404.html', {"username": username})
 
 
 def blank(request):
@@ -46,6 +50,16 @@ def utilities_other(request):
 
 
 def index(request):
+    # session
+
+    is_login = request.session.get("IS_LOGIN", False)
+    if not is_login:
+        username = request.session.get("username", False)
+        return render(request, 'test_theme/index.html', {'username':username})
+    else:
+        return HttpResponseRedirect('/test/login/')
+    # cookies
+    '''
     if request.method == 'GET':
         # 獲取所有學生資訊
         ticket = request.COOKIES.get('ticket')
@@ -56,26 +70,27 @@ def index(request):
             return render(request, 'test_theme/index.html', {'stuinfos': stuinfos})
         else:
             return HttpResponseRedirect('/test/login/')
-
+    '''
 
 def login(request):
-    username = "12311"
-    password= '12311'
-    
-    if request.method == 'POST': 
-        if not username in request.session: 
-            if request.POST['account'] == username and request.POST['password'] == password: 
-                request.session['account']=username 
-                message=username+' welcome !'
-                status = "login"             
-    else:
-        if username in request.session:
-            if request.session['account'] == username:
-                message = request.session['username'] +' 您已經登入過了!'
-                status = 'login'
-                
-    return render(request,'test_theme/login.html',locals())
+    # session
 
+    # if request.method == 'GET':
+        # return render(request, 'test_theme/login.html')
+    if request.method == 'POST':
+        account = request.POST.get('account')
+        password = request.POST.get('password')
+        if Users.objects.filter(u_name=account).exists():
+            user = Users.objects.get(u_name=account)
+            if password == user.u_password:
+                request.session['username'] = account
+                request.session['IS_Login'] = True
+                return HttpResponseRedirect('/test/testWB')
+            else:
+                return render(request, 'test_theme/login.html', {'password': '使用者密碼錯誤'})
+        else:
+            return render(request, 'test_theme/login.html', {'name': '使用者不存在'})
+    return render(request, 'test_theme/login.html', {})
     #cookies
 
     '''
@@ -106,11 +121,12 @@ def login(request):
     '''
 
 def logout(request):
+    # session
+    #if not request.session.get('is_login', None):
+    #    return HttpResponseRedirect("test/index/")
     
-    if username in request.session:
-        message = request.session['username'] + ' 您已登出!'
-        del request.session['username']
-    return render(request,'login.html',locals())
+    request.session.flush()
+    return HttpResponseRedirect("test/login/")
 
     # cookies
     '''
@@ -126,7 +142,7 @@ def register(request):
     if request.method == 'POST':
         account = request.POST.get('account')
         password = request.POST.get('password')
-        password = make_password(password)
+        # password = make_password(password)
         Users.objects.create(u_name=account, u_password=password)
         
         return HttpResponseRedirect('/test/login/')
