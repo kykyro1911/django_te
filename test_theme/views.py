@@ -4,11 +4,14 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.contrib import auth
-from .models import Users
+from .models import Users, ex_excel
+from .forms import ex_form
 import tkinter.messagebox as msg
 import tkinter as tk
 import random
 import time
+import pandas as pd
+import numpy as np
 
 
 
@@ -157,4 +160,9 @@ def charts(request):
 
 
 def tables(request):
-    return render(request, 'test_theme/tables.html', {})
+    try:
+        unit = ex_excel.objects.all().order_by('-Age')
+    except:
+        errormessage = "Error!"
+        
+    return render(request, 'test_theme/tables.html', locals())

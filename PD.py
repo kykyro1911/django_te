@@ -1,9 +1,13 @@
 import pandas as pd
+import sqlite3
+from sqlalchemy import create_engine  
+import sqlalchemy
 
-a = pd.read_excel('cfg_test.xlsx')
 
-a['Salary'] = a['Salary'].str.strip('$')
-a['Salary'] = a['Salary'].str.replace(',', '')
+engine = create_engine('sqlite:///db.sqlite3')
+a = pd.read_csv('test.csv')
+# conn = sqlite3.connect('db.sqlite3')
 
-a.to_excel('test.xlsx')
+
+b=a.to_sql('ex_excel', engine, index=False, if_exists='append')
 

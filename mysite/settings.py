@@ -25,7 +25,7 @@ SECRET_KEY = '5$6*jbbdj4u%az^ejxt)w$)&$(%plm5(577%trqk0!d3f==_xf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -135,3 +135,4 @@ STATICFILES_DIRS = (
   os.path.join(BASE_DIR, 'test_theme', 'static'),
 )
 
+DATETIME_FORMAT  = '%Y-%m-%d'
