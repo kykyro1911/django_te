@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib import auth
 from .models import Users, ex_excel
 from .forms import ex_form
+import json
 import tkinter.messagebox as msg
 import tkinter as tk
 import random
@@ -156,7 +157,16 @@ def forgot_password(request):
 
 
 def charts(request):
-    return render(request, 'test_theme/charts.html', {})
+    labels = []
+    data = []
+
+    chart_data = ex_excel.objects.order_by('-Salary')[:3]
+
+    for item in chart_data:
+        labels.append(item.Name)
+        data.append(item.Salary)
+        
+    return render(request, 'test_theme/charts.html', locals())
 
 
 def tables(request):
