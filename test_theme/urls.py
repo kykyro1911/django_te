@@ -19,5 +19,5 @@ urlpatterns = [
     url(r'tables/$', views.tables, name= 'tables'),
     url(r'logout/$', views.logout ,name= 'logout'),
 
-    # url(r'index/$', views.index, name= 'index'),
+    url(r'test/$', views.test, name= 'test'),
 ]

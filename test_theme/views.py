@@ -17,7 +17,7 @@ import numpy as np
 
 
 def test(request):
-    return render(request, 'test_theme/index.html', {})
+    return render(request, 'test_theme/test.html', {})
 
 
 def _404(request):
@@ -26,31 +26,38 @@ def _404(request):
 
 
 def blank(request):
-    return render(request, 'test_theme/blank.html', {})
+    username = request.session.get("username", False)
+    return render(request, 'test_theme/blank.html', locals())
 
 
 def buttons(request):
-    return render(request, 'test_theme/buttons.html', {})
+    username = request.session.get("username", False)
+    return render(request, 'test_theme/buttons.html', locals())
 
 
 def cards(request):
-    return render(request, 'test_theme/cards.html', {})
+    username = request.session.get("username", False)
+    return render(request, 'test_theme/cards.html', locals())
 
 
 def utilities_color(request):
-    return render(request, 'test_theme/utilities-color.html', {})
+    username = request.session.get("username", False)
+    return render(request, 'test_theme/utilities-color.html', locals())
 
 
 def utilities_border(request):
-    return render(request, 'test_theme/utilities-border.html', {})
+    username = request.session.get("username", False)
+    return render(request, 'test_theme/utilities-border.html', locals())
 
 
 def utilities_animation(request):
-    return render(request, 'test_theme/utilities-animation.html', {})
+    username = request.session.get("username", False)
+    return render(request, 'test_theme/utilities-animation.html', locals())
 
 
 def utilities_other(request):
-    return render(request, 'test_theme/utilities-other.html', {})
+    username = request.session.get("username", False)
+    return render(request, 'test_theme/utilities-other.html', locals())
 
 
 def index(request):
@@ -153,7 +160,8 @@ def register(request):
 
 
 def forgot_password(request):
-    return render(request, 'test_theme/forgot-password.html', {})
+    username = request.session.get("username", False)
+    return render(request, 'test_theme/forgot-password.html', locals())
 
 
 def charts(request):
